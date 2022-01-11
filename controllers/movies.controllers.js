@@ -38,11 +38,11 @@ export const addMovie = (req, res) => {
 
   if (movieFound) {
     res.status(400).send({
-      msg: `This movie already exist in the data base with id ${movieFound.id}`,
+      msg: `This movie already exist in the database with id ${movieFound.id}`,
     });
   } else {
     const movieId = uuidv4();
-    const movie = { id: movieId, ...{ title, director, release_date } };
+    const movie = { id: movieId, title, director, release_date};
     movies.push(movie);
     res.status(201).send({
       msg: `The movie "${req.body.title}" is added to the list with id: ${movieId}`,

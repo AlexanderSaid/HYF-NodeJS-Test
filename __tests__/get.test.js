@@ -5,36 +5,31 @@ const request = supertest(app);
 
 //! Test Get
 describe("GET /", () => {
-  it("Respond with html", async () => {
-    const res = await request.get("/");
-
-    expect(res.statusCode).toBe(200);
-
-    expect(res.header["content-type"]).toBe("text/html; charset=utf-8");
+  it("Respond with html", (done) => {
+    request
+      .get("/")
+      .expect(200)
+      .expect((res) => {
+        res.header["content-type"] === "text/html; charset=utf-8";
+        res.text.includes("Welcome to movies library server");
+      })
+      .end(done);
   });
 });
 
 //! Test GET /movies
 describe("GET /movies", () => {
   describe("User send a get request", () => {
-    it("Respond with a 200 status code", async () => {
-      const res = await request.get("/movies");
-
-      expect(res.statusCode).toBe(200);
-    });
-
-    it("Should specify json in the content type header", async () => {
-      const res = await request.get("/movies");
-
-      expect(res.headers["content-type"]).toEqual(
-        expect.stringContaining("json")
-      );
-    });
-
-    it("Should send an object", async () => {
-      const res = await request.get("/movies");
-
-      expect(typeof res.body).toBe("object");
+    it("Respond with a 200 status code, json in header content type, and return an object of 2 items", (done) => {
+      request
+        .get("/movies")
+        .expect(200)
+        .expect((res) => {
+          res.headers["content-type"] === "json";
+          typeof res.body === "object";
+          res.body.length === 2;
+        })
+        .end(done);
     });
   });
 });
@@ -42,32 +37,35 @@ describe("GET /movies", () => {
 //! Test GET /movies/:id
 describe("Get /movies/:id", () => {
   describe("User send a valid ID", () => {
-    it("Respond with a 200 status code and send back the movie object", async () => {
-      const id = "9791295e-97c4-49b9-ageb-dbb8aa2gd8so";
-      const res = await request.get(`/movies/${id}`);
-
-      expect(res.statusCode).toBe(200);
-      expect(typeof res.body).toBe("object");
-      expect(res.body).toEqual({
-        id: "9791295e-97c4-49b9-ageb-dbb8aa2gd8so",
-        title: "The Irishman",
-        director: "Martin Scorsese",
-        release_date: "2019-09-27",
-      });
+    it("Respond with a 200 status code and send back the movie object", (done) => {
+      const validID = "9791295e-97c4-49b9-ageb-dbb8aa2gd8so";
+      request
+        .get(`/movies/${validID}`)
+        .expect(200)
+        .expect((res) => {
+          typeof res.body === "object";
+          res.body ===
+            {
+              id: "9791295e-97c4-49b9-ageb-dbb8aa2gd8so",
+              title: "The Irishman",
+              director: "Martin Scorsese",
+              release_date: "2019-09-27",
+            };
+        })
+        .end(done);
     });
   });
   describe("User send invalid ID", () => {
-    it("Respond with a 404 status code and with error message", async () => {
-      const id = "76679071";
-      const res = await request.get(`/movies/${id}`);
-
-      expect(res.statusCode).toBe(404);
-      expect(typeof res.body).toBe("object");
-      expect(res.body.msg).toEqual(`There is no movie with id ${id}`);
+    it("Respond with a 404 status code and with error message", (done) => {
+      const invalidID = "76679071";
+      request
+        .get(`/movies/${invalidID}`)
+        .expect(404)
+        .expect((res) => {
+          typeof res.body === "object";
+          res.body.msg === `There is no movie with id ${invalidID}`;
+        })
+        .end(done);
     });
   });
 });
-
-
-
-

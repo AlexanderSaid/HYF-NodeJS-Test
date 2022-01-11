@@ -25,7 +25,7 @@ export const addMovie = (req, res) => {
   if (!title || !director || !release_date) {
     res
       .status(400)
-      .send({ msg: "Please fill all fields: Title, Director & Release date." });
+      .send({ msg: "Please fill all fields: title, director & release_date." });
     return;
   }
 
@@ -82,7 +82,7 @@ export const updateMovie = (req, res) => {
   const { title, director, release_date } = req.body;
   if (!title && !director && !release_date) {
     res.status(400).send({
-      msg: "Please fill a field to update: Title, Director or Release date.",
+      msg: "Please fill a field to update: title, director or release_date.",
     });
     return;
   }

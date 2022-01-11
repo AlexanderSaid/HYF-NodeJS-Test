@@ -15,7 +15,7 @@ describe("PATCH /movies/:id", () => {
       expect(res.statusCode).toBe(400);
       expect(typeof res.body).toBe("object");
       expect(res.body.msg).toEqual(
-        "Please fill a field to update: Title, Director or Release date."
+        "Please fill a field to update: title, director or release_date."
       );
     });
     // Sending invalid id

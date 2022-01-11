@@ -36,7 +36,7 @@ describe("POST /movies", () => {
       };
       const res = await request.post("/movies").send(movieTest);
       expect(res.body.msg).toBe(
-        "Please fill all fields: Title, Director & Release date."
+        "Please fill all fields: title, director & release_date."
       );
     });
     it("Request doesn't contain 'director' Respond with 400 status code", async () => {
@@ -54,7 +54,7 @@ describe("POST /movies", () => {
       };
       const res = await request.post("/movies").send(movieTest);
       expect(res.body.msg).toBe(
-        "Please fill all fields: Title, Director & Release date."
+        "Please fill all fields: title, director & release_date."
       );
     });
     it("Request doesn't contain 'release date' Respond with 400 status code", async () => {
@@ -72,7 +72,7 @@ describe("POST /movies", () => {
       };
       const res = await request.post("/movies").send(movieTest);
       expect(res.body.msg).toBe(
-        "Please fill all fields: Title, Director & Release date."
+        "Please fill all fields: title, director & release_date."
       );
     });
   });
